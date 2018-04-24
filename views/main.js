@@ -86,6 +86,9 @@ function addText(data) {
   var messagerefined = messagerefined.replace(";(", "😭");
   var messagerefined = messagerefined.replace(":(", "😦");
   var messagerefined = messagerefined.replace(":P", "😛");
+  var messagerefined = messagerefined.replace("&r", "<span style=\"color:red;\">");
+  var messagerefined = messagerefined.replace("&b", "<span style=\"color:blue;\">");
+  var messagerefined = messagerefined.replace("&y", "<span style=\"color:yellow;\">");
   var color="";
   if(data.id<=2000) {
     color="red";
