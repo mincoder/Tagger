@@ -99,6 +99,8 @@ function addText(data) {
     color="green";
   }
   document.getElementById('mes').innerHTML = document.getElementById('mes').innerHTML + data.user + "<span style=\"color:" + color + ";\">#" + data.id + "</span>: " + messagerefined + "<br />";
+  var objDiv = document.getElementById("mes");
+  objDiv.scrollTop = objDiv.scrollHeight;
 }
 
 document.addEventListener('keydown', function(event) {
