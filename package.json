@@ -4,8 +4,7 @@
   "description": "A small chat app",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "start:prod":"node index.js"
+    "start": "node index.js"
   },
   "keywords": [
     "tagger"

@@ -1,16 +1,18 @@
 var tag;
-var name;
+var name = "";
 var container;
 var id;
 
 var dateObj = new Date();
 var lastCheck = dateObj.getTime();
 var checkMes = [];
+var message = "test";
 
 function checkMesUse(stamp) {
-  for(var i=0;i<checkMes.length;i++) {
-    if(stamp==checkMes[i]) return false;
-  }
+  for (var i = 0; i < checkMes.length; i++) {
+    if (stamp == checkMes[i])
+      return false;
+    }
   checkMes.push(stamp);
   return true;
 }
@@ -25,28 +27,22 @@ function checkIn() {
     document.getElementById('message').innerHTML = "Please enter valid name and tag.";
   } else {
     name = name
-    id = "#" + Math.floor((Math.random() * 9999) + 1);
+    id = Math.floor((Math.random() * 9999) + 1);
     container.innerHTML = "<div class=\"scroll\" id=\"mes\"></div><br><input type=\"text\" id=\"chat\" class=\"chat\"><button class=\"send\" onClick=\"sendMessage()\">Send to #" + tag + "</button>";
   }
+  setInterval(function() {
+    getMessage();
+  }, 1000).start;
 }
 
 function sendMessage() {
-  var message = document.getElementById('chat').value;
-  if(!message=="") {
-    document.getElementById('chat').value="";
-    console.log(message);
-    $.post("/sendMessage", {
-      "message": message,
-      "user": name,
-      "tag": tag,
-      "id": id
-    });
-  /*  addText({
-      "message": message,
-      "user": name,
-      "tag": tag,
-      "id": id
-    });*/
+  if (message == "") {
+    message = document.getElementById('chat').value;
+    if (!message == "") {
+      document.getElementById('chat').style = "color:red;";
+      document.getElementById('chat').value = "Please Wait";
+      $(".chat").attr("readonly", true);
+    }
   }
 }
 
@@ -55,10 +51,11 @@ function getMessage() {
   //if(!document.getElementById('chat').value==null) $.post("/sendType", {"tag":tag,"name":name});
 
   //Downloads messages of tag
-  $.getJSON("/getMessage", {"tag": tag}).done(function(data) {
-    for(var i=0;i<data.length;i++) {
-      if(checkMesUse(data[i].timeStamp)) {
-      //  if(!((data[i].name+data[i].id)==(name+id)))
+  //$.getJSON("/getMessage", {"tag": tag}).done(function(data) {
+  $.getJSON("/getMessage").done(function(data) {
+    for (var i = 0; i < data.length; i++) {
+      if (checkMesUse(data[i].timeStamp)&&data[i].tag==tag) {
+        //  if(!((data[i].name+data[i].id)==(name+id)))
         addText(data[i]);
         lastCheck = dateObj.getTime();
       }
@@ -67,16 +64,45 @@ function getMessage() {
     var err = textStatus + ", " + error;
     console.log("Request Failed: " + err);
   });
+  if (!message == "") {
+    $.post("/sendMessage", {
+      "message": message,
+      "user": name,
+      "tag": tag,
+      "id": id
+    });
+    message = "";
+    document.getElementById('chat').style = "color:black;";
+    document.getElementById('chat').value = ""
+    $(".chat").attr("readonly", false);
+  }
 }
 
 function addText(data) {
-  document.getElementById('mes').innerHTML = document.getElementById('mes').innerHTML + data.name + "<span style=\"color:red;\">" + data.id + "</span>: " + data.message + "<br />";
+  var messagerefined = data.message;
+  var messagerefined = messagerefined.replace(":)", "😀");
+  var messagerefined = messagerefined.replace(":D", "😁");
+  var messagerefined = messagerefined.replace(";)", "😂");
+  var messagerefined = messagerefined.replace(";(", "😭");
+  var messagerefined = messagerefined.replace(":(", "😦");
+  var messagerefined = messagerefined.replace(":P", "😛");
+  var color="";
+  if(data.id<=2000) {
+    color="red";
+  } else if(data.id<=4000) {
+    color="blue";
+  } else if(data.id<=6000) {
+    color="purple";
+  } else if(data.id<=8000) {
+    color="yellow";
+  } else if(data.id<=10000) {
+    color="green";
+  }
+  document.getElementById('mes').innerHTML = document.getElementById('mes').innerHTML + data.user + "<span style=\"color:" + color + ";\">#" + data.id + "</span>: " + messagerefined + "<br />";
 }
 
 document.addEventListener('keydown', function(event) {
-  if(event.key == "Enter") {
+  if (event.key == "Enter") {
     sendMessage();
   }
 });
-
-setInterval(function() {getMessage();}, 250).start;

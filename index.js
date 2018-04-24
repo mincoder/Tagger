@@ -17,27 +17,24 @@ app.use(express.static(path.join(__dirname, '/views')));
 app.post('/sendMessage', function(req, res) {
   messages.push({
     "tag": req.body.tag,
-    "name": req.body.name,
+    "user": req.body.user,
     "id": req.body.id,
     "message": req.body.message,
-    "timeStamp": dateObj.getTime()*Math.floor((Math.random() * 9999) + 1),
-    "tag": req.body.tag
+    "timeStamp": dateObj.getTime() * Math.floor((Math.random() * 9999) + 1)
   });
-  log("sendMessage", "Message sent from: " + req.body.name + ":" + req.body.id + " Message sent: " + req.body.message);
+  log("sendMessage", "Message sent from: " + req.body.user + ":" + req.body.id + " Message sent: " + req.body.message);
+  res.end();
 });
 
 app.get("/getMessage", function(req, res) {
-  log("getMessage", JSON.stringify(messages));
-  log("getMessage", JSON.stringify(req.query));
-  var compile = [];
-  for (var i = 0; i < messages.length; i++) {
-    if (messages[i].tag === req.query.tag) {
-      compile.push(messages[i]);
-      //if ((messages[i].timeStamp - dateObj.getTime()) > 5000)
-        //messages.splice(i, 1);
+    console.log("test");
+    /*var compile = [];
+    for (var i = 0; i < messages.length; i++) {
+      if (messages[i].tag === req.query.tag) {
+        compile.push(messages[i]);
       }
-    }
-  res.send(compile);
+    }*/
+    res.send(messages);
 });
 
 app.get('/', function(req, res) {
@@ -45,9 +42,10 @@ app.get('/', function(req, res) {
 });
 
 setInterval(function() {
-  messages=[];
+  console.log("Remove: " + JSON.stringify(messages));
+  messages = [];
 }, 60000);
 
-app.listen(80);
+app.listen(8080);
 
 log("Body", "Completed Startup");
