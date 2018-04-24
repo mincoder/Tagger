@@ -46,6 +46,6 @@ setInterval(function() {
   messages = [];
 }, 60000);
 
-app.listen(8080);
+app.listen(80);
 
 log("Body", "Completed Startup");
