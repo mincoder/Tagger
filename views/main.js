@@ -29,7 +29,7 @@ function checkIn() {
     name = name
     id = Math.floor((Math.random() * 9999) + 1);
     document.getElementById('footer').innerHTML = "Made by Wilma Eklund.<br />Email: wilmahill03@gmail.com";
-    container.innerHTML = "<div class=\"scroll\" id=\"mes\"></div><br><input type=\"text\" id=\"chat\" class=\"chat\"><button class=\"send\" onClick=\"sendMessage()\">Send to #" + tag + "</button>";
+    container.innerHTML = "<div class=\"scroll\" id=\"mes\"></div><br><input type=\"text\" id=\"chat\" class=\"chat\"><button id=\"send\" class=\"send\" onClick=\"sendMessage()\">Send to #" + tag + "</button>";
   }
   setInterval(function() {
     getMessage();
@@ -72,6 +72,11 @@ function getMessage() {
       "tag": tag,
       "id": id
     });
+    if(message.charAt(0)=="#") {
+      message = message.replace("#","");
+      tag=message;
+      document.getElementById('send').innerHTML = "<button class=\"send\" onClick=\"sendMessage()\">Send to #" + tag + "</button>";
+    }
     message = "";
     document.getElementById('chat').style = "color:black;";
     document.getElementById('chat').value = ""
