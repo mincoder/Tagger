@@ -28,6 +28,7 @@ function checkIn() {
   } else {
     name = name
     id = Math.floor((Math.random() * 9999) + 1);
+    document.getElementById('footer').innerHTML = "Made by Wilma Eklund.<br />Email: wilmahill03@gmail.com";
     container.innerHTML = "<div class=\"scroll\" id=\"mes\"></div><br><input type=\"text\" id=\"chat\" class=\"chat\"><button class=\"send\" onClick=\"sendMessage()\">Send to #" + tag + "</button>";
   }
   setInterval(function() {
@@ -86,9 +87,13 @@ function addText(data) {
   var messagerefined = messagerefined.replace(";(", "😭");
   var messagerefined = messagerefined.replace(":(", "😦");
   var messagerefined = messagerefined.replace(":P", "😛");
+  var messagerefined = messagerefined.replace("&g", "<span style=\"color:green;\">");
+  var messagerefined = messagerefined.replace("&bl", "<span style=\"color:black;\">");
+  var messagerefined = messagerefined.replace("&o", "<span style=\"color:orange;\">");
   var messagerefined = messagerefined.replace("&r", "<span style=\"color:red;\">");
   var messagerefined = messagerefined.replace("&b", "<span style=\"color:blue;\">");
   var messagerefined = messagerefined.replace("&y", "<span style=\"color:yellow;\">");
+  var messagerefined = messagerefined.replace("&p", "<span style=\"color:purple;\">");
   var color="";
   if(data.id<=2000) {
     color="red";
