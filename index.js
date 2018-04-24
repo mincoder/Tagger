@@ -27,7 +27,6 @@ app.post('/sendMessage', function(req, res) {
 });
 
 app.get("/getMessage", function(req, res) {
-    console.log("test");
     /*var compile = [];
     for (var i = 0; i < messages.length; i++) {
       if (messages[i].tag === req.query.tag) {
